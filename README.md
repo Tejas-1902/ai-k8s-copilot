@@ -2,7 +2,7 @@
 
 
 
-An AI-assisted Kubernetes troubleshooting tool built with Python, FastAPI, Docker, and Kubernetes. It detects common pod failures, provides troubleshooting recommendations, and generates AI-assisted explanations to help engineers investigate incidents.
+An AI-assisted Kubernetes troubleshooting tool built with Python, FastAPI, Docker, and Kubernetes.
 
 
 
@@ -10,19 +10,39 @@ An AI-assisted Kubernetes troubleshooting tool built with Python, FastAPI, Docke
 
 
 
-\- \*\*Kubernetes Diagnostics:\*\* Identifies common pod issues such as `ImagePullBackOff` and `CrashLoopBackOff`.
+\- Detects common Kubernetes pod failures.
 
-\- \*\*Incident Severity:\*\* Assigns severity levels to detected incidents.
+\- Classifies incident severity.
 
-\- \*\*Troubleshooting Recommendations:\*\* Provides practical diagnostic steps and commands.
+\- Provides troubleshooting recommendations.
 
-\- \*\*AI-Assisted Explanations:\*\* Generates incident explanations using an OpenAI-compatible API.
+\- Generates AI-assisted incident explanations.
 
-\- \*\*FastAPI REST API:\*\* Provides diagnostic endpoints and interactive API documentation.
+\- Exposes REST APIs using FastAPI.
 
-\- \*\*Automated Testing:\*\* Includes pytest tests for diagnostic logic.
+\- Runs automated tests with pytest.
 
-\- \*\*Continuous Integration:\*\* GitHub Actions runs tests and builds the Docker image.
+\- Builds Docker images through GitHub Actions.
+
+
+
+\## Technology Stack
+
+
+
+\- Python 3.12
+
+\- FastAPI
+
+\- Kubernetes
+
+\- Docker
+
+\- Minikube
+
+\- pytest
+
+\- GitHub Actions
 
 
 
@@ -48,15 +68,11 @@ FastAPI Application
 
 &#x20;       |
 
-&#x20;       +----> Incident Diagnosis
+&#x20;       +--> Incident Diagnosis
 
-&#x20;       |
+&#x20;       +--> Troubleshooting Recommendations
 
-&#x20;       +----> Troubleshooting Recommendations
-
-&#x20;       |
-
-&#x20;       +----> AI-Assisted Explanation
+&#x20;       +--> AI-Assisted Explanation
 
 &#x20;       |
 
@@ -68,41 +84,19 @@ JSON API Response
 
 
 
-\## Technology Stack
-
-
-
-\- Python 3.12
-
-\- FastAPI
-
-\- Kubernetes Python Client
-
-\- Docker
-
-\- Minikube
-
-\- pytest
-
-\- GitHub Actions
-
-\- Docker Model Runner / OpenAI-compatible API
-
-
-
 \## Supported Incidents
 
 
 
-| Incident | Purpose |
+| Incident | Description |
 
 |---|---|
 
-| `ImagePullBackOff` | Investigates image names, tags, registry access, and pod events |
+| ImagePullBackOff | Investigates container image pull failures |
 
-| `CrashLoopBackOff` | Investigates container logs, startup failures, configuration, and resource issues |
+| CrashLoopBackOff | Investigates repeated container crashes |
 
-| `Unknown` | Provides basic diagnostic guidance for other pod states |
+| Unknown | Provides basic diagnostic guidance |
 
 
 
@@ -116,19 +110,19 @@ JSON API Response
 
 | `/` | GET | Root endpoint |
 
-| `/diagnose` | POST | Diagnoses a supplied incident |
+| `/diagnose` | POST | Diagnose an incident |
 
-| `/scan` | GET | Scans the configured Kubernetes namespace for pod incidents |
+| `/scan` | GET | Scan the configured Kubernetes namespace |
 
-| `/docs` | GET | Interactive FastAPI Swagger documentation |
-
-
-
-\## Getting Started
+| `/docs` | GET | Interactive API documentation |
 
 
 
-\### 1. Clone the repository
+\## Run Locally
+
+
+
+Clone the repository:
 
 
 
@@ -142,11 +136,7 @@ cd ai-k8s-copilot
 
 
 
-\### 2. Create a virtual environment
-
-
-
-Windows PowerShell:
+Create a virtual environment:
 
 
 
@@ -160,7 +150,7 @@ python -m venv .venv
 
 
 
-\### 3. Install dependencies
+Install dependencies:
 
 
 
@@ -172,7 +162,7 @@ python -m pip install -r requirements.txt
 
 
 
-\### 4. Start the API
+Start the API:
 
 
 
@@ -184,7 +174,7 @@ uvicorn main:app --reload
 
 
 
-Open the API documentation at http://127.0.0.1:8000/docs.
+Open http://127.0.0.1:8000/docs.
 
 
 
@@ -204,7 +194,7 @@ docker build -t ai-k8s-copilot:latest .
 
 
 
-Run the container:
+Start the container:
 
 
 
@@ -216,15 +206,7 @@ docker run --rm -p 8000:8000 ai-k8s-copilot:latest
 
 
 
-Open http://localhost:8000/docs.
-
-
-
-\*\*Note:\*\* Live Kubernetes scans require access to a configured Kubernetes cluster. AI explanations require the configured AI service to be reachable.
-
-
-
-\## Run Automated Tests
+\## Run Tests
 
 
 
@@ -236,19 +218,11 @@ python -m pytest -v
 
 
 
-GitHub Actions automatically runs tests and builds the Docker image on pushes to `main` and pull requests targeting `main`.
+\## Continuous Integration
 
 
 
-\## Kubernetes Testing
-
-
-
-The project can be tested with Minikube. A sample workload using an invalid container image can demonstrate `ImagePullBackOff` detection.
-
-
-
-Use a dedicated test namespace and avoid introducing broken workloads into production clusters.
+GitHub Actions runs automated tests and builds the Docker image when code is pushed to the `main` branch or a pull request targets `main`.
 
 
 
@@ -256,13 +230,11 @@ Use a dedicated test namespace and avoid introducing broken workloads into produ
 
 
 
-\- Detect additional Kubernetes failure scenarios.
+\- Support more Kubernetes incident types.
 
-\- Add structured logging and monitoring.
+\- Add monitoring and structured logging.
 
-\- Publish versioned Docker images to a container registry.
-
-\- Deploy the application with read-only Kubernetes RBAC.
+\- Publish Docker images to a container registry.
 
 \- Add integration tests and security scanning.
 
@@ -272,7 +244,7 @@ Use a dedicated test namespace and avoid introducing broken workloads into produ
 
 
 
-\[View AI Kubernetes Copilot on GitHub](https://github.com/Tejas-1902/ai-k8s-copilot)
+https://github.com/Tejas-1902/ai-k8s-copilot
 
 
 
