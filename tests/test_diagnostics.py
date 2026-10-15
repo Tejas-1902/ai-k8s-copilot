@@ -1,5 +1,5 @@
 
-from main import Incident, diagnose
+from main import Incident, diagnose, get_troubleshooting_checks
 
 
 def test_image_pull_backoff():
@@ -42,3 +42,25 @@ def test_unknown_incident():
 
     assert result["incident"] == "Unknown"
     assert result["recommended_actions"]
+
+
+def test_image_pull_backoff_checks():
+    checks = get_troubleshooting_checks("ImagePullBackOff")
+
+    assert len(checks) == 3
+    assert any("describe pod" in check for check in checks)
+    assert any("image name and tag" in check for check in checks)
+
+
+def test_crash_loop_backoff_checks():
+    checks = get_troubleshooting_checks("CrashLoopBackOff")
+
+    assert len(checks) == 3
+    assert any("logs" in check for check in checks)
+
+
+def test_unknown_incident_checks():
+    checks = get_troubleshooting_checks("Unknown")
+
+    assert len(checks) == 2
+    assert any("describe pod" in check for check in checks)

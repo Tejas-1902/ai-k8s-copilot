@@ -1,6 +1,10 @@
-from k8s_client import get_pod_diagnostics
+
 from fastapi import FastAPI
 from pydantic import BaseModel
+
+from k8s_client import get_pod_diagnostics
+from ai_diagnosis import explain_incident
+
 
 app = FastAPI(
     title="AI Kubernetes Copilot",
@@ -17,10 +21,33 @@ class Incident(BaseModel):
     events: str = ""
 
 
+def get_troubleshooting_checks(incident_type: str) -> list[str]:
+    """Return safe troubleshooting checks for a known incident type."""
+
+    if incident_type == "ImagePullBackOff":
+        return [
+            "Run kubectl describe pod <pod-name> -n <namespace> and inspect Events.",
+            "Verify the image name and tag in the pod specification.",
+            "Check registry connectivity and image pull credentials if Events indicate an authentication or network error.",
+        ]
+
+    if incident_type == "CrashLoopBackOff":
+        return [
+            "Run kubectl describe pod <pod-name> -n <namespace> and inspect Events.",
+            "Run kubectl logs <pod-name> -n <namespace> --previous to inspect the previous container crash.",
+            "Review startup errors, configuration, resource limits, and health probes.",
+        ]
+
+    return [
+        "Run kubectl describe pod <pod-name> -n <namespace> to inspect Events.",
+        "Run kubectl logs <pod-name> -n <namespace> to inspect container output.",
+    ]
+
+
 def diagnose(incident: Incident) -> dict:
-    evidence = (
-        incident.status + " " + incident.events
-    ).lower()
+    """Identify common Kubernetes incidents using rule-based diagnosis."""
+
+    evidence = f"{incident.status} {incident.events}".lower()
 
     if (
         "errimagepull" in evidence
@@ -38,7 +65,7 @@ def diagnose(incident: Incident) -> dict:
             "recommended_actions": [
                 "Verify the image name and tag.",
                 "Check registry access and image pull credentials.",
-                "Update the deployment with a valid image.",
+                "Confirm the cause from pod Events before changing the deployment.",
             ],
         }
 
@@ -60,9 +87,7 @@ def diagnose(incident: Incident) -> dict:
     return {
         "incident": "Unknown",
         "severity": "Needs investigation",
-        "probable_cause": (
-            "No matching diagnostic rule was found."
-        ),
+        "probable_cause": "No matching diagnostic rule was found.",
         "evidence": incident.events or incident.status,
         "recommended_actions": [
             "Inspect pod events and container logs.",
@@ -84,6 +109,9 @@ def diagnose_incident(incident: Incident):
     result = diagnose(incident)
     result["pod_name"] = incident.pod_name
     result["namespace"] = incident.namespace
+    result["troubleshooting_checks"] = get_troubleshooting_checks(
+        result["incident"]
+    )
     return result
 
 
@@ -106,13 +134,30 @@ def scan_kubernetes():
         )
 
         report = diagnose(incident)
-        report.update({
-            "pod_name": item["pod_name"],
-            "namespace": item["namespace"],
-            "pod_phase": item["pod_phase"],
-            "container": item["container"],
-            "image": item["image"],
-        })
+
+        report.update(
+            {
+                "pod_name": item["pod_name"],
+                "namespace": item["namespace"],
+                "pod_phase": item["pod_phase"],
+                "container": item["container"],
+                "image": item["image"],
+                "troubleshooting_checks": get_troubleshooting_checks(
+                    report["incident"]
+                ),
+            }
+        )
+
+        report["ai_explanation"] = explain_incident(
+            {
+                "pod_name": incident.pod_name,
+                "namespace": incident.namespace,
+                "status": incident.status,
+                "image": incident.image,
+                "events": incident.events,
+                "rule_based_diagnosis": report,
+            }
+        )
 
         reports.append(report)
 
@@ -121,4 +166,3 @@ def scan_kubernetes():
         "incidents_found": len(reports),
         "incidents": reports,
     }
-
