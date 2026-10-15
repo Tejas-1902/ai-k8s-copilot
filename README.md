@@ -2,7 +2,7 @@
 
 
 
-An AI-assisted Kubernetes troubleshooting tool built with Python, FastAPI, Docker, and Kubernetes. The project detects common pod failures, provides troubleshooting recommendations, and generates AI-assisted explanations to help engineers investigate incidents faster.
+An AI-assisted Kubernetes troubleshooting tool built with Python, FastAPI, Docker, and Kubernetes. It detects common pod failures, provides troubleshooting recommendations, and generates AI-assisted explanations to help engineers investigate incidents.
 
 
 
@@ -16,13 +16,13 @@ An AI-assisted Kubernetes troubleshooting tool built with Python, FastAPI, Docke
 
 \- \*\*Troubleshooting Recommendations:\*\* Provides practical diagnostic steps and commands.
 
-\- \*\*AI-Assisted Explanations:\*\* Uses an OpenAI-compatible API to generate incident explanations.
+\- \*\*AI-Assisted Explanations:\*\* Generates incident explanations using an OpenAI-compatible API.
 
-\- \*\*FastAPI REST API:\*\* Exposes diagnostic endpoints and interactive API documentation.
+\- \*\*FastAPI REST API:\*\* Provides diagnostic endpoints and interactive API documentation.
 
 \- \*\*Automated Testing:\*\* Includes pytest tests for diagnostic logic.
 
-\- \*\*CI Pipeline:\*\* GitHub Actions runs tests and builds the Docker image.
+\- \*\*Continuous Integration:\*\* GitHub Actions runs tests and builds the Docker image.
 
 
 
@@ -98,11 +98,11 @@ JSON API Response
 
 |---|---|
 
-| ImagePullBackOff | Helps investigate image names, tags, registry access, and pod events |
+| `ImagePullBackOff` | Investigates image names, tags, registry access, and pod events |
 
-| CrashLoopBackOff | Helps investigate container logs, startup failures, configuration, and resource issues |
+| `CrashLoopBackOff` | Investigates container logs, startup failures, configuration, and resource issues |
 
-| Unknown | Provides basic diagnostic guidance for other pod states |
+| `Unknown` | Provides basic diagnostic guidance for other pod states |
 
 
 
@@ -116,15 +116,15 @@ JSON API Response
 
 | `/` | GET | Root endpoint |
 
-| `/diagnose` | POST | Diagnose a supplied incident |
+| `/diagnose` | POST | Diagnoses a supplied incident |
 
-| `/scan` | GET | Scan the configured Kubernetes namespace for pod incidents |
+| `/scan` | GET | Scans the configured Kubernetes namespace for pod incidents |
 
 | `/docs` | GET | Interactive FastAPI Swagger documentation |
 
 
 
-\## Run Locally
+\## Getting Started
 
 
 
@@ -142,7 +142,7 @@ cd ai-k8s-copilot
 
 
 
-\### 2. Create a Python virtual environment
+\### 2. Create a virtual environment
 
 
 
@@ -184,11 +184,7 @@ uvicorn main:app --reload
 
 
 
-Open the interactive API documentation:
-
-
-
-http://127.0.0.1:8000/docs
+Open the API documentation at http://127.0.0.1:8000/docs.
 
 
 
@@ -224,7 +220,7 @@ Open http://localhost:8000/docs.
 
 
 
-\*\*Note:\*\* The container needs access to a Kubernetes cluster and its configuration to perform live scans. AI explanations also depend on the configured AI service being reachable.
+\*\*Note:\*\* Live Kubernetes scans require access to a configured Kubernetes cluster. AI explanations require the configured AI service to be reachable.
 
 
 
@@ -240,7 +236,7 @@ python -m pytest -v
 
 
 
-The GitHub Actions workflow runs the tests and builds the Docker image when changes are pushed to the `main` branch or a pull request targets `main`.
+GitHub Actions automatically runs tests and builds the Docker image on pushes to `main` and pull requests targeting `main`.
 
 
 
@@ -248,27 +244,11 @@ The GitHub Actions workflow runs the tests and builds the Docker image when chan
 
 
 
-The project can be tested against a Kubernetes cluster such as Minikube. A sample broken workload using an invalid container image can help demonstrate the `ImagePullBackOff` diagnosis.
+The project can be tested with Minikube. A sample workload using an invalid container image can demonstrate `ImagePullBackOff` detection.
 
 
 
-Use a dedicated test namespace and avoid experimenting with broken workloads in production clusters.
-
-
-
-\## Project Goals
-
-
-
-\- Practice Kubernetes troubleshooting and pod diagnostics.
-
-\- Apply Python API development to DevOps workflows.
-
-\- Build a containerized application.
-
-\- Implement automated testing and CI with GitHub Actions.
-
-\- Explore AI-assisted incident analysis.
+Use a dedicated test namespace and avoid introducing broken workloads into production clusters.
 
 
 
@@ -276,15 +256,13 @@ Use a dedicated test namespace and avoid experimenting with broken workloads in 
 
 
 
-\- Add more Kubernetes failure scenarios.
+\- Detect additional Kubernetes failure scenarios.
 
-\- Improve structured logging and error handling.
-
-\- Add monitoring and metrics.
+\- Add structured logging and monitoring.
 
 \- Publish versioned Docker images to a container registry.
 
-\- Deploy the application to Kubernetes with read-only RBAC.
+\- Deploy the application with read-only Kubernetes RBAC.
 
 \- Add integration tests and security scanning.
 
@@ -294,7 +272,11 @@ Use a dedicated test namespace and avoid experimenting with broken workloads in 
 
 
 
-GitHub: https://github.com/Tejas-1902/ai-k8s-copilot
+\[View AI Kubernetes Copilot on GitHub](https://github.com/Tejas-1902/ai-k8s-copilot)
+
+
+
+\---
 
 
 
