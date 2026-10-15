@@ -1,4 +1,4 @@
-\# AI Kubernetes Copilot
+﻿# AI Kubernetes Copilot
 
 
 
@@ -6,7 +6,7 @@ An AI-assisted Kubernetes troubleshooting tool built with Python, FastAPI, Docke
 
 
 
-\## Features
+## Features
 
 
 
@@ -26,7 +26,7 @@ An AI-assisted Kubernetes troubleshooting tool built with Python, FastAPI, Docke
 
 
 
-\## Technology Stack
+## Technology Stack
 
 
 
@@ -46,7 +46,7 @@ An AI-assisted Kubernetes troubleshooting tool built with Python, FastAPI, Docke
 
 
 
-\## Architecture
+## Architecture
 
 
 
@@ -84,7 +84,7 @@ JSON API Response
 
 
 
-\## Supported Incidents
+## Supported Incidents
 
 
 
@@ -100,7 +100,7 @@ JSON API Response
 
 
 
-\## API Endpoints
+## API Endpoints
 
 
 
@@ -118,7 +118,7 @@ JSON API Response
 
 
 
-\## Run Locally
+## Run Locally
 
 
 
@@ -178,7 +178,7 @@ Open http://127.0.0.1:8000/docs.
 
 
 
-\## Run with Docker
+## Run with Docker
 
 
 
@@ -206,7 +206,7 @@ docker run --rm -p 8000:8000 ai-k8s-copilot:latest
 
 
 
-\## Run Tests
+## Run Tests
 
 
 
@@ -218,7 +218,7 @@ python -m pytest -v
 
 
 
-\## Continuous Integration
+## Continuous Integration
 
 
 
@@ -226,7 +226,7 @@ GitHub Actions runs automated tests and builds the Docker image when code is pus
 
 
 
-\## Future Improvements
+## Future Improvements
 
 
 
@@ -240,7 +240,7 @@ GitHub Actions runs automated tests and builds the Docker image when code is pus
 
 
 
-\## Repository
+## Repository
 
 
 
@@ -249,6 +249,7 @@ https://github.com/Tejas-1902/ai-k8s-copilot
 
 
 \---
+
 
 
 
