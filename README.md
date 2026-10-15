@@ -154,5 +154,3 @@ Use a dedicated test namespace and avoid introducing broken workloads into produ
 [AI Kubernetes Copilot on GitHub](https://github.com/Tejas-1902/ai-k8s-copilot)
 
 ---
-
-**Disclaimer:** This project is for learning and demonstration. Verify AI-generated explanations against actual Kubernetes events, logs, and configuration before taking action.
